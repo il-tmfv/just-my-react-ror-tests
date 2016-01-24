@@ -3,6 +3,12 @@
         records: @props.data
     getDefaultProps: ->
         records: []
+    updateRecord: (record, data) ->
+        records = @state.records.slice()
+        index = @state.records.indexOf record
+        #records = React.addons.update(@state.records, { $splice: [[index, 1, data]] })
+        records.splice index, 1, data 
+        @replaceState records: records
     addRecord: (record) ->
         records = @state.records.slice()
         records.push record
@@ -45,4 +51,4 @@
                    React.DOM.th null, 'Actions'
                 React.DOM.tbody null,
                     for record in @state.records
-                        React.createElement Record, key: record.id, record: record, handleDeleteRecord: @deleteRecord
+                        React.createElement Record, key: record.id, record: record, handleDeleteRecord: @deleteRecord, handleEditRecord: @updateRecord
